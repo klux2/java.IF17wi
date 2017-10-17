@@ -1,5 +1,5 @@
 # JAVA IF17wi
-Hier sind die Lösungen für die Programmierung in Java.
+Hier sind die Lösungen für die Programmierung in Java.  
 Geordnet in Ordner nach den jeweiligen Praktika (Praktikum1 = prak01, etc)  
 
 ## HINWEIS!!
