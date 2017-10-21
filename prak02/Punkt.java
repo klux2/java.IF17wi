@@ -1,8 +1,8 @@
 public class Punkt
 {
 	//Attribute definieren
-	double x;	//private ist Standard, muss also nicht explizit angegeben werden!
-	double y;
+	private double x;
+	private double y;
 
 	//Konstruktoren definieren
 	public Punkt()
