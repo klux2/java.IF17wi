@@ -60,4 +60,29 @@ public class Punkt
 		}*/
 	}
 
+	/* ZUSATZ */
+	public void spiegelnX()
+	{
+		x = -x;
+	}
+	public void spiegelnY()
+	{
+		y = -y;
+	}
+	public double abstandUrsprung()
+	{
+		return Math.sqrt( x*x + y*y );
+	}
+	public double winkelXAchse()
+	{
+		//cos(a) = (u·v)/(|u|*|v|)
+		//u = (1|0) - x Achse
+		//v = (x|y) - Punkt
+		double dist = abstandUrsprung();
+		double cos = x/dist;	//(x*1+y*0)/(dist*1)
+		double acos = Math.acos( cos );	//gibt in Radians zurück
+		return Math.toDegrees( acos ); // in Grad umwandeln
+	}
+	/* ZUSATZ ENDE */
+
 }

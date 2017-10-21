@@ -44,6 +44,17 @@ public class PunktTester
 		d.show(p2);
 		d.show(p3);
 		d.show(p4);
+
+		System.out.println("P2: " + p2.toString() );
+		System.out.println("P3: " + p3.toString() );
+		p2.spiegelnX();
+		p3.spiegelnY();
+		System.out.println("P2: " + p2.toString() );
+		System.out.println("P3: " + p3.toString() );
+
+		System.out.println("P2 Abstand: " + p2.abstandUrsprung() );
+		System.out.println("P2 Winkel: " + p2.winkelXAchse() );
+
 		/*ZUSATZ ENDE*/
 	}
 }
