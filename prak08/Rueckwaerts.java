@@ -1,5 +1,3 @@
-package java08;
-
 public class Rueckwaerts {
 	
 	/**
@@ -16,7 +14,7 @@ public class Rueckwaerts {
 															//	"print" statt "println" gibt danach keinen Zeilenumbruch aus
 		}
 		
-		String currentClass = new Object() { }.getClass().getEnclosingClass().getName();				// currentClass = Name der Klasse (java08.Rueckwaerts)
+		String currentClass = new Object() { }.getClass().getEnclosingClass().getName();				// currentClass = Name der Klasse (z. B. java08.Rueckwaerts)
 		System.out.print(umdrehen(currentClass.substring(currentClass.lastIndexOf('.') + 1)) + " ");	// nimmt den Teil nach dem letzten Punkt, dreht ihn um und gibt ihn aus 
 		System.out.println("avaj");
 		
