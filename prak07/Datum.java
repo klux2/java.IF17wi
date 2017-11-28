@@ -82,8 +82,8 @@ class Datum
 	public static boolean istDatumGueltig(int tag, int monat, int jahr)
 	{
 		if( jahr < 0 ) return false;	//keine negativen Jahre, I guess?
-		if( monat < 0 || monat > 12 ) return false; //gibts auch nicht
-		if( tag < 0 || tag > tageImMonat(monat, jahr) ) return false;	//mehr tage als der Monat hat??
+		if( monat < 1 || monat > 12 ) return false; //gibts auch nicht
+		if( tag < 1 || tag > tageImMonat(monat, jahr) ) return false;	//mehr tage als der Monat hat??
 
 		return true;
 
