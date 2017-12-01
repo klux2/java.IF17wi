@@ -185,7 +185,10 @@ class Datum
 			result -= 365;
 
 			if( istSchaltjahr( d.jahr + jahre ) )
-
+			{
+				result -= 1;
+			}
+			
 			jahre++;
 		}
 
