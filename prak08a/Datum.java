@@ -1,5 +1,8 @@
 class Datum
 {
+
+	/* PRAKTIKUM 8a STARTET ERST UNTEN!! */
+
 	//Standardwerte sind 0
 	private int tag = 0, monat = 0, jahr = 0;
 
@@ -82,8 +85,8 @@ class Datum
 	public static boolean istDatumGueltig(int tag, int monat, int jahr)
 	{
 		if( jahr < 0 ) return false;	//keine negativen Jahre, I guess?
-		if( monat < 1 || monat > 12 ) return false; //gibts auch nicht
-		if( tag < 1 || tag > tageImMonat(monat, jahr) ) return false;	//mehr tage als der Monat hat??
+		if( monat < 0 || monat > 12 ) return false; //gibts auch nicht
+		if( tag < 0 || tag > tageImMonat(monat, jahr) ) return false;	//mehr tage als der Monat hat??
 
 		return true;
 
@@ -187,6 +190,120 @@ class Datum
 		}
 
 		return result;
+	}
+
+	/* AB HIER FOLGT PRAKTIKUM 8a!!!! */
+
+	public Datum( int[] datumszahlen )
+	{
+		this.tag = datumszahlen[0];
+		this.monat = datumszahlen[1];
+		this.jahr = datumszahlen[2];
+	}
+
+	public Datum( String s )
+	{
+		this( zerlegeString(s) );
+	}
+
+	public static int[] zerlegeString(String s)
+	{
+		// würde ich nehmen, aber ich denke, dass ist nicht im Sinn der Aufgabe :)
+		// schnellste Variante
+		String[] tokens = s.split("\\."); //split will einen RegEx string! (siehe Linux praktika für RegEx)
+
+		// die zweite, explizitere, aber immer noch kurze Variante
+		/*
+		String[] tokens = new String[3]; //wir brauchen nur 3 Strings "tt", "mm", "jjjj"
+		tokens[0] = s.substring( 0, s.indexOf(".") ); //vom ersten zeichen bis zum ersten punkt (exklusive punkt)
+		tokens[1] = s.substring( s.indexOf(".")+1, s.lastIndexOf(".")  ); //vom ersten bis letzten Punkt
+		tokens[2] = s.substring( s.lastIndexOf(".")+1 ); //vom letzten Punkt bis ende
+		*/
+
+		// und einmal komplett manuell :)
+		/*
+		int i = 0, j = 0;
+		String[] tokens = {"", "", ""}; //Array mit 3 leeren Strings
+		while(true)	//while true => endlosschleife
+		{
+			if( s.charAt(j) == '.' )
+			{
+				i++;	//wenn Punkt, dann ist der token i fertig, also i++ nächster Token
+			}
+			else
+			{
+				tokens[i] += s.charAt(j); //Zeichen an dieser stelle dem Token hinzufügen :)
+			}
+
+			j++;
+
+			if( j >= s.length() )	//wir haben das ende des Strings erreicht
+			{
+				break;	//also beenden wir den Loop
+			}
+		}
+		*/
+
+		int[] datum = new int[3];
+		datum[0] = Integer.parseInt(tokens[0]);
+		datum[1] = Integer.parseInt(tokens[1]);
+		datum[2] = Integer.parseInt(tokens[2]);
+
+		return datum;
+	}
+
+	public static Datum parseDatum(String s)
+	{
+		int[] datum = zerlegeString(s);
+		return new Datum(datum);
+	}
+
+	public static Datum readDatum()
+	{
+		String s = Keyboard.readString();
+		return parseDatum(s);
+	}
+
+	//VARIABLE!
+	static final String[] monatsnamen = {
+		 "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
+		 "August", "September", "Oktober", "November", "Dezember" 
+	};
+
+	public String toString2()
+	{
+		//this.monat-1 weil wir ja von 0-11 anstatt 1-12 zählen
+		return this.tag + ". " + monatsnamen[this.monat-1] + " " + this.jahr;
+	}
+
+	/* AB HIER PRAKTIKUM 8a ZUSATZ! */
+
+	//Die Formel wahrscheinlich von Amis entwickelt, bei denen geht die Woche Sonntags los...
+	static final String[] wochentagsnamen = {
+		"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
+	};
+
+	//Danke an klux2 
+	public int wochentagNr() // siehe https://de.wikipedia.org/wiki/Wochentagsberechnung#Formel fuer Erklaerungen
+	{ 
+		int m = (monat + 9) % 12 + 1;
+		int y = jahr % 1000;
+		int c = (jahr - y) / 100;
+
+		if (monat == 1 || monat == 2) 
+		{
+			y = (y + 99) % 100;
+		    c = (jahr - y - 1) / 100;
+		}
+
+		//Zahl von 0-6
+		return(((int) (tag + (2.6 * m - 0.2) + y + (y / 4) + (c / 4)) - 2 * c) % 7);
+	}
+
+	public String toString3()
+	{
+		//wir zählen, 0-6 nicht 1-7, also -1!
+		return wochentagsnamen[wochentagNr()] + ", der " + tag + ". " + monatsnamen[monat-1] + " " + jahr;
 	}
 
 }
