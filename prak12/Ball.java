@@ -20,7 +20,10 @@ public class Ball {
     private int x, y, r;
     private Color color;
     private int dx, dy;
+    private final int dx_start, dy_start;
     private int intervall;
+    private Circle circle;
+    private Pane animationPane;
 
     public Ball(int pb, int ph, int x, int y, int r, int dx, int dy, int intervall) {
         rnd = new Random();
@@ -33,14 +36,16 @@ public class Ball {
         this.color = new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1);
         this.dx = dx;
         this.dy = dy;
+        this.dx_start = dx;
+        this.dy_start = dy;
         this.intervall = intervall;
     }
 
     public Pane animiereBall() {
-        Pane animationPane = new Pane();
+        animationPane = new Pane();
         animationPane.setPrefSize(pb, ph);
 
-        Circle circle = new Circle(x, y, r, color);
+        circle = new Circle(x, y, r, color);
 
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -71,9 +76,9 @@ public class Ball {
 
     private HBox navigiereAnimation(Timeline tl) {
         HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
         hBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        hBox.autosize();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(10);
 
         Label status = new Label("Animation wurde gestartet.");
 
@@ -93,18 +98,23 @@ public class Ball {
         stop.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 tl.stop();
+                circle.setCenterX(x);
+                circle.setCenterY(y);
+                dx = dx_start;
+                dy = dy_start;
                 status.setText("Animation wurde gestoppt.");
             }
         });
         restart.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                circle.setCenterX(x);
+                circle.setCenterY(y);
+                dx = dx_start;
+                dy = dy_start;
                 tl.playFromStart();
                 status.setText("Animation wurde neu gestartet.");
             }
         });
-
-        stop.setDisable(true);
-        restart.setDisable(true);
 
         hBox.getChildren().addAll(play, pause, stop, restart, status);
 
